@@ -1,0 +1,246 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Common styles for all layouts */
+.upper-nav {
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    height: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lower-nav {
+    background-color: #729fcf;
+    color: black;
+    text-align: center;
+    padding: 15px;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #3464a4;
+}
+
+.scrollable-content {
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    padding: 10px;
+}
+
+h1, h2, h3 {
+    font-size: 2em;
+    text-align: center;
+}
+
+.nav-links {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+.nav-links a {
+    color: white;
+    margin: 0 5px;
+}
+
+
+/* Layout 1: Header + Lower nav + 2-column content (aside + main) */
+.layout1 {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout1 .content-area {
+    flex: 1;
+    display: flex;
+    background-color: #729fcf;
+}
+
+.layout1 .sidebar {
+    width: 25%;
+    background-color: #729fcf;
+    border-right: 1px solid #3464a4;
+    padding: 10px;
+    height: 100%;
+}
+
+.layout1 .main-content {
+    width: 75%;
+    background-color: #729fcf;
+    padding: 10px;
+    height: 100%;
+}
+
+/* Layout 2: Header + 3-column content (aside + main + aside) */
+.layout2 {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout2 .content-area {
+    flex: 1;
+    display: flex;
+    background-color: #729fcf;
+}
+
+.layout2 .sidebar {
+    width: 20%;
+    background-color: #729fcf;
+    border-right: 1px solid #3464a4;
+    padding: 10px;
+    height: 100%;
+}
+
+.layout2 .main-content {
+    width: 60%;
+    background-color: #729fcf;
+    border-right: 1px solid #3464a4;
+    padding: 10px;
+    height: 100%;
+}
+
+.layout2 .sidebar:last-child {
+    border-right: none;
+}
+
+/* Layout 3: Header + Lower nav + 3-column content + footer */
+.layout3 {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout3 .content-area {
+    flex: 1;
+    display: flex;
+    background-color: #729fcf;
+}
+
+.layout3 .sidebar {
+    width: 20%;
+    background-color: #729fcf;
+    border-right: 1px solid #3464a4;
+    padding: 10px;
+    height: 100%;
+}
+
+.layout3 .main-content {
+    width: 60%;
+    background-color: #729fcf;
+    border-right: 1px solid #3464a4;
+    padding: 10px;
+    height: 100%;
+}
+
+.layout3 .sidebar:last-child {
+    border-right: none;
+}
+
+.layout3 .footer {
+    background-color: #729fcf;
+    color: black;
+    text-align: center;
+    padding: 15px;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid #3464a4;
+}
+
+/* Layout 4: Header + 2-column content (3 stacked asides + main) */
+.layout4 {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout4 .content-area {
+    flex: 1;
+    display: flex;
+    background-color: #729fcf;
+}
+
+.layout4 .sidebar-container {
+    width: 30%;
+    background-color: #729fcf;
+    border-right: 1px solid #3464a4;
+    padding: 5px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.layout4 .aside-panel {
+    flex: 1;
+    background-color: #729fcf;
+    border-bottom: 1px solid #3464a4;
+    padding: 10px;
+    margin: 2px 0;
+    height: calc(33.333% - 4px);
+}
+
+.layout4 .aside-panel:last-child {
+    border-bottom: none;
+}
+
+.layout4 .main-content {
+    width: 70%;
+    background-color: #729fcf;
+    padding: 10px;
+    height: 100%;
+}
+
+.layout4 .footer {
+    background-color: #729fcf;
+    color: black;
+    text-align: center;
+    padding: 15px;
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid #3464a4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .layout1 .sidebar,
+    .layout2 .sidebar,
+    .layout3 .sidebar,
+    .layout4 .sidebar-container {
+        width: 100%;
+        height: auto;
+    }
+    
+    .layout1 .main-content,
+    .layout2 .main-content,
+    .layout3 .main-content,
+    .layout4 .main-content {
+        width: 100%;
+    }
+    
+    .layout1 .content-area,
+    .layout2 .content-area,
+    .layout3 .content-area,
+    .layout4 .content-area {
+        flex-direction: column;
+    }
+}
