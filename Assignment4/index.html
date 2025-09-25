@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Database</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .movie-list {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .movie-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 4px solid #007bff;
+            background-color: white;
+        }
+        .short-film {
+            border-left-color: #28a745;
+        }
+        .critics-pick {
+            border-left-color: #ffc107;
+        }
+        .both {
+            border-left-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 The Movie Database</h1>
+        <p><em>It's like Netflix, but much much smaller!</em></p>
+        
+        <div class="movie-list">
+            <h2>Movie Analysis Results</h2>
+            <div id="results"></div>
+        </div>
+        
+    </div>
+
+    <script>
+        // Movie Constructor
+        function Movie(title, duration, stars, rating, viewed) {
+            this.title = title;
+            this.duration = duration; // in minutes
+            this.stars = stars; // array of strings
+            this.rating = rating; // number 0-5
+            this.viewed = viewed; // boolean
+        }
+
+        // Function to check if movie is a short film (< 40 minutes)
+        function isShortFilm(movie) {
+            return movie.duration < 40;
+        }
+
+        // Function to check if movie is a critic's pick (rating > 4 and not viewed)
+        function criticsPick(movie) {
+            return movie.rating > 4 && !movie.viewed;
+        }
+
+        // Create array of 5 movies
+        const movies = [
+            new Movie("The Lion King", 88, ["Matthew Broderick", "James Earl Jones", "Jeremy Irons"], 4.5, true),
+            new Movie("Toy Story", 81, ["Tom Hanks", "Tim Allen", "Don Rickles"], 4.8, true),
+            new Movie("A Trip to the Moon", 12, ["Georges Méliès"], 4.2, false),
+            new Movie("The Godfather", 175, ["Marlon Brando", "Al Pacino", "James Caan"], 4.9, false),
+            new Movie("La Jetée", 28, ["Jean Négroni", "Hélène Chatelain"], 4.7, false)
+        ];
+
+        // Display results
+        function displayResults() {
+            const resultsDiv = document.getElementById('results');
+            let html = '<h3>Short Films:</h3><ul>';
+            
+            movies.forEach(movie => {
+                const isShort = isShortFilm(movie);
+                const isCriticsPick = criticsPick(movie);
+                
+                if (isShort) {
+                    let className = '';
+                    if (isShort && isCriticsPick) {
+                        className = 'both';
+                    } else if (isShort) {
+                        className = 'short-film';
+                    } else if (isCriticsPick) {
+                        className = 'critics-pick';
+                    }
+                    
+                    html += `<li class="movie-item ${className}">
+                        <strong>${movie.title}</strong> (${movie.duration} min)
+                        ${isCriticsPick ? ' - 🏆 CRITIC\'S PICK!' : ''}
+                    </li>`;
+                }
+            });
+            
+            html += '</ul><h3>Critic\'s Picks:</h3><ul>';
+            
+            movies.forEach(movie => {
+                const isCriticsPick = criticsPick(movie);
+                const isShort = isShortFilm(movie);
+                
+                if (isCriticsPick) {
+                    let className = '';
+                    if (isShort && isCriticsPick) {
+                        className = 'both';
+                    } else if (isShort) {
+                        className = 'short-film';
+                    } else if (isCriticsPick) {
+                        className = 'critics-pick';
+                    }
+                    
+                    html += `<li class="movie-item ${className}">
+                        <strong>${movie.title}</strong> (${movie.duration} min, Rating: ${movie.rating}/5)
+                        ${isShort ? ' - 📽️ SHORT FILM!' : ''}
+                    </li>`;
+                }
+            });
+            
+            html += '</ul>';
+            resultsDiv.innerHTML = html;
+        }
+
+        // Console output for testing
+        console.log("=== MOVIE DATABASE TEST RESULTS ===");
+        console.log("\nShort Films:");
+        movies.forEach(movie => {
+            if (isShortFilm(movie)) {
+                console.log(`- ${movie.title} (${movie.duration} min) - Critics Pick: ${criticsPick(movie) ? 'YES' : 'NO'}`);
+            }
+        });
+
+        console.log("\nCritic's Picks:");
+        movies.forEach(movie => {
+            if (criticsPick(movie)) {
+                console.log(`- ${movie.title} (Rating: ${movie.rating}/5) - Short Film: ${isShortFilm(movie) ? 'YES' : 'NO'}`);
+            }
+        });
+
+        console.log("\nAll Movies Analysis:");
+        movies.forEach(movie => {
+            console.log(`${movie.title}: Short Film: ${isShortFilm(movie)}, Critics Pick: ${criticsPick(movie)}`);
+        });
+
+        // Display results when page loads
+        displayResults();
+    </script>
+</body>
+</html>
