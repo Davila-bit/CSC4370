@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>New Song Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#0f172a; --card:#0b1220; --fg:#e5e7eb; --muted:#9ca3af; --accent:#60a5fa; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: radial-gradient(1200px 600px at 100% -20%, #1f2937 0, #0f172a 60%); color: var(--fg); }
+    .wrap { min-height:100vh; display:grid; place-items:center; padding:24px; }
+    .card { width:100%; max-width:720px; background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.08); border-radius:16px; backdrop-filter: blur(8px); box-shadow: 0 10px 30px rgba(0,0,0,0.45); overflow:hidden; }
+    header { padding:20px 24px; border-bottom:1px solid rgba(255,255,255,0.08); display:flex; align-items:center; gap:12px; }
+    header .dot { width:10px; height:10px; border-radius:50%; background: var(--accent); box-shadow:0 0 12px var(--accent); }
+    header h1 { font-size:18px; margin:0; letter-spacing:0.2px; }
+    form { padding:24px; display:grid; gap:16px; }
+    .grid { display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+    .row { display:flex; flex-direction:column; gap:8px; }
+    label { color:#cbd5e1; font-weight:600; }
+    input[type="text"], select, textarea { background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:12px 14px; color:#f8fafc; outline:none; }
+    textarea { min-height:120px; resize: vertical; }
+    .radios { display:flex; gap:10px; flex-wrap:wrap; }
+    .radio-pill { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); }
+    .actions { display:flex; justify-content:space-between; align-items:center; padding:18px 24px; border-top:1px solid rgba(255,255,255,0.08); }
+    .btn { color:#0b1220; background: var(--accent); padding:10px 14px; border-radius:8px; text-decoration:none; font-weight:600; border:none; cursor:pointer; }
+    a.link { color: var(--fg); text-decoration: none; }
+  </style>
+  <script>
+    // Keep it minimal but unique: small helper to prefill rating via keyboard 1-5
+    addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+      const n = Number(e.key);
+      if (n >= 1 && n <= 5) {
+        const input = document.querySelector('input[name="rating"][value="' + n + '"]');
+        if (input) input.checked = true;
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card" role="region" aria-label="New review form">
+      <header>
+        <div class="dot"></div>
+        <h1>New Song Review</h1>
+      </header>
+      <form action="/viewreview" method="POST">
+        <div class="grid">
+          <div class="row">
+            <label for="artist">Artist</label>
+            <input type="text" id="artist" name="artist" required />
+          </div>
+          <div class="row">
+            <label for="albumTitle">Album Title</label>
+            <input type="text" id="albumTitle" name="albumTitle" />
+          </div>
+          <div class="row">
+            <label for="songTitle">Song Title</label>
+            <input type="text" id="songTitle" name="songTitle" required />
+          </div>
+          <div class="row">
+            <label for="reviewerName">Reviewer Name</label>
+            <input type="text" id="reviewerName" name="reviewerName" required />
+          </div>
+          <div class="row">
+            <label for="platform">Streaming Platform</label>
+            <select id="platform" name="platform" required>
+              <option value="">Select…</option>
+              <option>Spotify</option>
+              <option>Apple Music</option>
+              <option>Amazon Music</option>
+              <option>YouTube Music</option>
+              <option>Tidal</option>
+            </select>
+          </div>
+          <div class="row">
+            <label>Rating</label>
+            <div class="radios">
+              <label class="radio-pill"><input type="radio" name="rating" value="1" required /> 1</label>
+              <label class="radio-pill"><input type="radio" name="rating" value="2" /> 2</label>
+              <label class="radio-pill"><input type="radio" name="rating" value="3" /> 3</label>
+              <label class="radio-pill"><input type="radio" name="rating" value="4" /> 4</label>
+              <label class="radio-pill"><input type="radio" name="rating" value="5" /> 5</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label for="review">Review</label>
+          <textarea id="review" name="review" placeholder="What stood out to you?" required></textarea>
+        </div>
+        <div class="actions">
+          <a class="link" href="/hello">Test Hello Route</a>
+          <button class="btn" type="submit">Submit Review</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>
+
+
