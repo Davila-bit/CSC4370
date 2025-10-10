@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Reviews</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .artist-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .artist-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #667eea;
+        }
+
+        .artist-details h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .artist-details p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .nav-links {
+            margin-top: 20px;
+        }
+
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #764ba2;
+        }
+
+        .reviews-container {
+            display: grid;
+            gap: 25px;
+        }
+
+        .review-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .review-title {
+            font-size: 1.4em;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .reviewer-info {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1.2em;
+            color: #ff6b6b;
+        }
+
+        .track-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .track-artwork {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .track-details h3 {
+            color: #333;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .track-details p {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .duration {
+            background: #f8f9fa;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .review-description {
+            color: #555;
+            line-height: 1.6;
+            font-size: 1em;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            margin: 50px 0;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .no-reviews {
+            background: white;
+            border-radius: 15px;
+            padding: 60px;
+            text-align: center;
+            color: #666;
+        }
+
+        .no-reviews h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .artist-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .track-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header" id="artistHeader">
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Loading artist information...</p>
+            </div>
+        </div>
+        
+        <div class="reviews-container" id="reviewsContainer">
+            <div class="loading" id="reviewsLoading">
+                <div class="spinner"></div>
+                <p>Loading reviews...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load artist and reviews when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const artistId = urlParams.get('artistId');
+            
+            if (!artistId) {
+                showError('No artist selected. Please go back and select an artist.');
+                return;
+            }
+            
+            loadArtistAndReviews(artistId);
+        });
+
+        async function loadArtistAndReviews(artistId) {
+            try {
+                // Load artist info and reviews in parallel
+                const [artistResponse, reviewsResponse] = await Promise.all([
+                    fetch(`/api/artist/${artistId}`),
+                    fetch(`/api/reviews/${artistId}`)
+                ]);
+
+                if (!artistResponse.ok || !reviewsResponse.ok) {
+                    throw new Error('Failed to load data');
+                }
+
+                const artist = await artistResponse.json();
+                const reviews = await reviewsResponse.json();
+
+                displayArtistInfo(artist);
+                displayReviews(reviews);
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showError('Failed to load artist information and reviews. Please try again.');
+            }
+        }
+
+        function displayArtistInfo(artist) {
+            const header = document.getElementById('artistHeader');
+            const loading = document.getElementById('loading');
+            
+            loading.style.display = 'none';
+            
+            header.innerHTML = `
+                <div class="artist-info">
+                    <img src="${artist.artist_picture || 'https://via.placeholder.com/120x120?text=Artist'}" 
+                         alt="${artist.artist_name}" class="artist-image">
+                    <div class="artist-details">
+                        <h1>${artist.artist_name}</h1>
+                        <p>${artist.artist_description || 'No description available'}</p>
+                    </div>
+                </div>
+                <div class="nav-links">
+                    <a href="/selectreview.html">← Back to Artist Selection</a>
+                    <a href="/musicreview.html">Add New Review</a>
+                    <a href="/">Home</a>
+                </div>
+            `;
+        }
+
+        function displayReviews(reviews) {
+            const container = document.getElementById('reviewsContainer');
+            const loading = document.getElementById('reviewsLoading');
+            
+            loading.style.display = 'none';
+            
+            if (reviews.length === 0) {
+                container.innerHTML = `
+                    <div class="no-reviews">
+                        <h2>No Reviews Yet</h2>
+                        <p>This artist doesn't have any reviews yet. Be the first to review them!</p>
+                        <a href="/musicreview.html" style="color: #667eea; text-decoration: none; font-weight: 500;">Add a Review</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = reviews.map(review => `
+                <div class="review-card">
+                    <div class="review-header">
+                        <div>
+                            <div class="review-title">${review.review_title}</div>
+                            <div class="reviewer-info">by ${review.reviewer_name}</div>
+                        </div>
+                        <div class="rating">
+                            ${'⭐'.repeat(review.star_rating)}
+                            <span>${review.star_rating}/5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="track-info">
+                        <img src="${review.track_artwork || 'https://via.placeholder.com/80x80?text=Track'}" 
+                             alt="${review.track_title}" class="track-artwork">
+                        <div class="track-details">
+                            <h3>${review.track_title}</h3>
+                            <p>by ${review.artist_name}</p>
+                        </div>
+                        <div class="duration">${formatDuration(review.track_length)}</div>
+                    </div>
+                    
+                    <div class="review-description">
+                        ${review.review_description}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function formatDuration(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
+        function showError(message) {
+            const container = document.getElementById('reviewsContainer');
+            const loading = document.getElementById('reviewsLoading');
+            
+            loading.style.display = 'none';
+            
+            container.innerHTML = `
+                <div class="error">
+                    <h3>Error</h3>
+                    <p>${message}</p>
+                    <a href="/selectreview.html" style="color: white; text-decoration: underline;">Go back to artist selection</a>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
