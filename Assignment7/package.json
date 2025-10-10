@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "music-review-system",
   "version": "1.0.0",
   "description": "A music review system with artist selection and review display",
@@ -20,21 +19,3 @@
   "author": "Your Name",
   "license": "MIT"
 }
-=======
-  "name": "assignment6",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "express": "^4.21.2"
-  }
-}
->>>>>>> e7e4a00436e5f9e7bb9f580151c458e98d218b6e

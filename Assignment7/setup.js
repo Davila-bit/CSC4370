@@ -2,7 +2,6 @@ const mysql = require("mysql2");
 const fs = require("fs");
 
 // Create connection to MySQL (without specifying database first)
-// Update the password below to match your MySQL root password
 const conn = mysql.createConnection({
     host:"localhost",
     user:"root",
